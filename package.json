@@ -1,7 +1,7 @@
 {
-  "name": "The Shoppies",
+  "name": "the_shoppies",
   "version": "1.0.0",
-  "description": "App nominating your 5 favorite movies or tv shows, built with React, Express and SQLite.",
+  "description": "App nominating your 5 favorite movies or tv shows, built with React, Express and MongoDB.",
   "private": false,
   "license": "MIT",
   "browserslist": [
