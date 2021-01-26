@@ -1,52 +1,48 @@
-// userController.js
+// User Controller
 
 // Import user model
-User = require('../models/user');
+User = require('../models/User');
 
 // Handle index actions
-exports.index = function (req, res) {
-    User.get(function (err, users) {
-        if (err) {
-            res.json({
-                status: "error",
-                message: err,
-            });
-        }
-        res.json({
-            status: "success",
-            message: "Users retrieved successfully",
-            data: users
-        });
-    });
+exports.index = async function (req, res) {
+    try{
+        const users = await User.find();
+        res.json(users)
+    } catch (err) {
+        res.json({message: err})
+    }
 };
+
 // Handle create user actions
-exports.new = function (req, res) {
-    var user = new User();
-    user.email = req.body.email;
-// save the user and check for errors
-    user.save(function (err) {
-        // if (err)
-        //     res.json(err);
-res.json({
-            message: 'New user created!',
-            data: user
-        });
+exports.new = async function (req, res) {
+    const user = new User({
+        email: req.body.email
     });
+
+    try{
+        const savedUser = await user.save()
+        res.json(savedUser)
+    } catch (err) {
+        res.json({message: err})
+    }
 };
+
 // Handle view user info
-exports.view = function (req, res) {
-    User.findById(req.params.user_id, function (err, user) {
-        if (err)
-            res.send(err);
+exports.view = async function (req, res) {
+    try{
+        const user = await User.findOne({ email: req.params.email});
+        res.json(user)
+    }
+    catch (err) {
         res.json({
-            message: 'User details loading..',
-            data: user
-        });
-    });
+            message: err
+        })
+    }
 };
+
 // Handle update user info
 exports.update = function (req, res) {
-User.findById(req.params.user_id, function (err, user) {
+User.findOne({email: req.params.email}, function (err, user) {
         if (err)
             res.send(err);
         user.email = req.body.email;
@@ -61,11 +57,10 @@ User.findById(req.params.user_id, function (err, user) {
         });
     });
 };
+
 // Handle delete user
 exports.delete = function (req, res) {
-    User.remove({
-        _id: req.params.user_id
-    }, function (err, user) {
+    User.removeOne({email: req.params.email}, function (err, user) {
         if (err)
             res.send(err);
 res.json({

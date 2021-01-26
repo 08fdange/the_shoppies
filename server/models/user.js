@@ -1,18 +1,36 @@
-// contactModel.js
+// User Model
+
 var mongoose = require('mongoose');
-// Setup schema
-var userSchema = mongoose.Schema({
-    email: {
+
+const nominationSchema = mongoose.Schema({
+    Title: {
         type: String,
         required: true
     },
+    Year: {
+        type: String,
+    },
+    Actors: {
+        type: String,
+    },
+    Rated: String,
+    Plot: String,
+    Poster: String,
+});
+
+// User Schema 
+var userSchema = mongoose.Schema({
+    email: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    nominations: [nominationSchema],
     create_date: {
         type: Date,
         default: Date.now
     }
 });
-// Export Contact model
-var User = module.exports = mongoose.model('user', userSchema);
-module.exports.get = function (callback, limit) {
-    User.find(callback).limit(limit);
-}
+
+// Export User model
+const User = module.exports = mongoose.model('User', userSchema);

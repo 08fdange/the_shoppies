@@ -1,0 +1,12 @@
+body {
+  color: white;
+  min-height: 100vh;
+  background-color: black;
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-family: 'Space Mono','Proza Libre', 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

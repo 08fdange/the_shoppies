@@ -1,21 +1,28 @@
-// Import express
 let express = require('express');
-// Import Body parser
+let cors = require('cors');
 let bodyParser = require('body-parser');
-// Import Mongoose
 let mongoose = require('mongoose');
-// Initialise the app
 let app = express();
+const dotenv = require('dotenv');
 
 // Import routes
 let apiRoutes = require("./routes/api-routes");
+
+// CORS
+app.use(cors());
+app.options('*', cors());
+
+//Use .env file
+dotenv.config();
+
 // Configure bodyparser to handle post requests
 app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(bodyParser.json());
+
 // Connect to Mongoose and set connection variable
-mongoose.connect('mongodb://localhost/the_shoppies', { useNewUrlParser: true});
+mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser: true, useUnifiedTopology: true});
 var db = mongoose.connection;
 
 // Added check for DB connection
@@ -28,11 +35,12 @@ else
 var port = process.env.PORT || 8080;
 
 // Send message for default URL
-app.get('/', (req, res) => res.send('Hello World with Express'));
+app.get('/', (req, res) => res.send('The Shoppies API'));
 
 // Use Api routes in the App
 app.use('/api', apiRoutes);
+
 // Launch app to listen to specified port
 app.listen(port, function () {
-    console.log("Running RestHub on port " + port);
+    console.log("Running The Shoppies on port " + port);
 });
